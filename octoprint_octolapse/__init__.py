@@ -3844,7 +3844,7 @@ class OctolapseLargeResponseHandler(LargeResponseHandler):
         self, request_callback, as_attachment=False, access_validation=None, default_filename=None,
         on_before_request=None, on_after_request=None
     ):
-        super(OctolapseLargeResponseHandler, self).initialize(
+        super().initialize(
             '', default_filename=default_filename, as_attachment=as_attachment, allow_client_caching=False,
             access_validation=access_validation, path_validation=None, etag_generator=None,
             name_generator=self.name_generator, mime_type_guesser=None)
