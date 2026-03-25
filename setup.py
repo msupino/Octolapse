@@ -4,20 +4,24 @@ from setuptools.command.build_ext import build_ext
 import sys
 import platform
 
-# Versioneer import with fallback
+FALLBACK_VERSION = "0.4.5"
+
 try:
     import versioneer
-    cmdclass = versioneer.get_cmdclass()
-except (ImportError, AttributeError):
-    print("Warning: versioneer not available, using fallback version")
+    _ver = versioneer.get_version()
+    if _ver and "unknown" not in _ver:
+        cmdclass = versioneer.get_cmdclass()
+    else:
+        raise ValueError(f"versioneer returned unusable version: {_ver}")
+except Exception:
     cmdclass = {}
-    def get_version():
-        return "0.4.51"
-    def get_cmdclass():
-        return {}
     class _versioneer:
-        get_version = staticmethod(get_version)
-        get_cmdclass = staticmethod(get_cmdclass)
+        @staticmethod
+        def get_version():
+            return FALLBACK_VERSION
+        @staticmethod
+        def get_cmdclass():
+            return {}
     versioneer = _versioneer
 
 # Compiler options
